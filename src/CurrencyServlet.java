@@ -24,16 +24,18 @@ public class CurrencyServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html");
         PrintWriter writer = response.getWriter();
-        String kursy = Logic.getRequest(date, currency);
-        double finalValue = Double.parseDouble(value) * Double.parseDouble(kursy);
+        String curencyExchangeRate = Logic.getRequest(date, currency);
+        String plnExchangeRage = Logic.getRequest(date, "PLN");
+        double effectiveRate = Logic.getEffectiveRate(plnExchangeRage, curencyExchangeRate);
+        double finalValue = Double.parseDouble(value) * effectiveRate;
 
         writer.println("Kalkulacja kursu");
 
-        writer.println("Ilość Euro " + value);
+        writer.println("Ilość PLN: " + value);
         writer.println("<br/>");
-        writer.println("Po przeliczeniu na " + currency);
+        writer.println("Po przeliczeniu na: " + currency);
         writer.println("<br/>");
-        writer.println("Przy kursie " + kursy + " z dnia " + date);
+        writer.println("Przy kursie: " + effectiveRate + "<br/> z dnia : " + date);
 
         writer.println("<br/>");
         writer.println("Wynosi " + finalValue);

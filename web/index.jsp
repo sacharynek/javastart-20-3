@@ -12,7 +12,7 @@
 </head>
 <body>
 <form method="post" action="/currency">
-    <label> Ilość Waluty
+    <label> Ilość PLN
         <input type="text" name="value"/>
     </label>
     <label>Waluta

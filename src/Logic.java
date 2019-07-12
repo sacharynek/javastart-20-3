@@ -48,4 +48,10 @@ class Logic {
         return jObject.get(currencySymbol).getAsString();
     }
 
+    static double getEffectiveRate(String plnExchangeRage, String curencyExchangeRate) {
+        double pln = Double.parseDouble(plnExchangeRage);
+        double other = Double.parseDouble(curencyExchangeRate);
+
+        return other / pln;
+    }
 }
