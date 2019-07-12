@@ -11,16 +11,15 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class Logic {
+class Logic {
 
 
-    public static String getRequest(String date, String currencySymbol) throws IOException {
+    static String getRequest(String date, String currencySymbol) throws IOException {
 
-        if(date.equals("")){
+        if (date.equals("")) {
             date = "latest";
         }
-        String url="http://data.fixer.io/api/"+date+"?access_key=5f197ac23be347b1a0531ff6faeb3d4f&symbols="+currencySymbol;
-
+        String url = "http://data.fixer.io/api/" + date + "?access_key=5f197ac23be347b1a0531ff6faeb3d4f&symbols=" + currencySymbol;
 
         HttpClient client = HttpClientBuilder.create().build();
         HttpGet getRequest = new HttpGet(url);
@@ -35,23 +34,18 @@ public class Logic {
         BufferedReader rd = new BufferedReader(
                 new InputStreamReader(getResponse.getEntity().getContent()));
 
-        StringBuffer result = new StringBuffer();
+        StringBuffer queryResult = new StringBuffer();
         String line = "";
         while ((line = rd.readLine()) != null) {
-            result.append(line);
+            queryResult.append(line);
         }
 
-        String odpowiedz = result.toString();
-        JsonElement jelement = new JsonParser().parse(odpowiedz);
-        JsonObject jobject = jelement.getAsJsonObject();
-        jobject = jobject.getAsJsonObject("rates");
-        String valueResult = jobject.get(currencySymbol).getAsString();
+        String apiResponse = queryResult.toString();
+        JsonElement jElement = new JsonParser().parse(apiResponse);
+        JsonObject jObject = jElement.getAsJsonObject();
+        jObject = jObject.getAsJsonObject("rates");
 
-
-
-
-
-        return valueResult;
+        return jObject.get(currencySymbol).getAsString();
     }
 
 }
